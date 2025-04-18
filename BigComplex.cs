@@ -182,70 +182,69 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Tests if the two supplied BigComplex structure instances have the same properties
         /// </summary>
-        /// <param name="item1">The first instance of a BigComplex structure for the comparison</param>
-        /// <param name="item2">The second instance of a BigComplex structure for the comparison</param>
+        /// <param name="left">The first instance of a BigComplex structure for the comparison</param>
+        /// <param name="right">The second instance of a BigComplex structure for the comparison</param>
         /// <returns>True if both instances have the same real and imaginary properties, false otherwise</returns>
-        public static bool operator ==(BigComplex item1, BigComplex item2)
+        public static bool operator ==(BigComplex left, BigComplex right)
         {
-            return item1.Real == item2.Real && item1.Imaginary == item2.Imaginary;
+            return left.Real == right.Real && left.Imaginary == right.Imaginary;
         }
 
         /// <summary>
         /// Tests if the two supplied BigComplex structure instances have different properties
         /// </summary>
-        /// <param name="item1">The first instance of a BigComplex structure for the comparison</param>
-        /// <param name="item2">The second instance of a BigComplex structure for the comparison</param>
+        /// <param name="left">The first instance of a BigComplex structure for the comparison</param>
+        /// <param name="right">The second instance of a BigComplex structure for the comparison</param>
         /// <returns>True if the two instances have the different real or imaginary properties, false otherwise</returns>
-        public static bool operator !=(BigComplex item1, BigComplex item2)
+        public static bool operator !=(BigComplex left, BigComplex right)
         {
-            return !(item1 == item2);
+            return !(left == right);
         }
 
         /// <summary>
-        /// Unary negation operator
-        /// Negates the given BigComplex.
+        /// Unary negation operator. Negates the given BigComplex
         /// </summary>
-        /// <param name="z">The BigComplex structure to be negated.</param>
+        /// <param name="z">The BigComplex structure to be negated</param>
         /// <returns>
-        /// Returns a BigComplex structure which is the negative equavalent of the givenBigComplex Structure
+        /// Returns a BigComplex structure which is the negative equavalent of the given BigComplex Structure
         /// </returns>
-        public static BigComplex operator -(BigComplex z)
+        public static BigComplex operator -(BigComplex value)
         {
-            return new BigComplex(-z.Real, -z.Imaginary);
+            return new BigComplex(-value.Real, -value.Imaginary);
         }
 
         /// <summary>
         /// Adds two BigComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two BigComplex structure instances to sum</param>
-        /// <param name="item2">The second of the two BigComplex structure instances to sum</param>
-        /// <returns>Returns a BigComplex structure which represents the sum of item1 + item2</returns>
-        public static BigComplex operator +(BigComplex item1, BigComplex item2)
+        /// <param name="left">The first of the two BigComplex structure instances to sum</param>
+        /// <param name="right">The second of the two BigComplex structure instances to sum</param>
+        /// <returns>Returns a BigComplex structure which represents the sum of left + right</returns>
+        public static BigComplex operator +(BigComplex left, BigComplex right)
         {
-            return new BigComplex(item1.Real + item2.Real, item1.Imaginary + item2.Imaginary);
+            return new BigComplex(left.Real + right.Real, left.Imaginary + right.Imaginary);
         }
 
         /// <summary>
         /// Subtracts two BigComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two BigComplex structure instances to subtract</param>
-        /// <param name="item2">The second of the two BigComplex structure instances to subtract</param>
-        /// <returns>Returns a BigComplex structure which represents the calculation of item1 - item2</returns>
-        public static BigComplex operator -(BigComplex item1, BigComplex item2)
+        /// <param name="left">The first of the two BigComplex structure instances to subtract</param>
+        /// <param name="right">The second of the two BigComplex structure instances to subtract</param>
+        /// <returns>Returns a BigComplex structure which represents the calculation of left - right</returns>
+        public static BigComplex operator -(BigComplex left, BigComplex right)
         {
-            return item1 + (-item2);
+            return left + (-right);
         }
 
         /// <summary>
         /// Multiplies two BigComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two BigComplex structure instances to multiply</param>
-        /// <param name="item2">The second of the two BigComplex structure instances to multiply</param>
-        /// <returns>Returns a BigComplex structure which represents the calculation of item1 * item2</returns>
-        public static BigComplex operator *(BigComplex item1, BigComplex item2)
+        /// <param name="left">The first of the two BigComplex structure instances to multiply</param>
+        /// <param name="right">The second of the two BigComplex structure instances to multiply</param>
+        /// <returns>Returns a BigComplex structure which represents the calculation of left * right</returns>
+        public static BigComplex operator *(BigComplex left, BigComplex right)
         {
-            BigFloat real = item1.Real * item2.Real - item1.Imaginary * item2.Imaginary;
-            BigFloat imaginary = item1.Imaginary * item2.Real + item1.Real * item2.Imaginary;
+            BigFloat real = left.Real * right.Real - left.Imaginary * right.Imaginary;
+            BigFloat imaginary = left.Imaginary * right.Real + left.Real * right.Imaginary;
 
             return new BigComplex(real, imaginary);
         }
@@ -253,18 +252,16 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Divides two BigComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two BigComplex structure instances to divide</param>
-        /// <param name="item2">The second of the two BigComplex structure instances to divide</param>
-        /// <returns>Returns a BigComplex structure which represents the calculation of item1 / item2</returns>
-        public static BigComplex operator /(BigComplex item1, BigComplex item2)
+        /// <param name="left">The first of the two BigComplex structure instances to divide</param>
+        /// <param name="right">The second of the two BigComplex structure instances to divide</param>
+        /// <returns>Returns a BigComplex structure which represents the calculation of left / right</returns>
+        public static BigComplex operator /(BigComplex left, BigComplex right)
         {
-            BigFloat denominator = BigFloat.Pow(item2.Real, 2) + BigFloat.Pow(item2.Imaginary, 2);
-            BigFloat real = (item1.Real * item2.Real + item1.Imaginary * item2.Imaginary) / denominator;
-            BigFloat imaginary = (item1.Imaginary * item2.Real - item1.Real * item2.Imaginary) / denominator;
+            BigFloat denominator = BigFloat.Pow(right.Real, 2) + BigFloat.Pow(right.Imaginary, 2);
+            BigFloat real = (left.Real * right.Real + left.Imaginary * right.Imaginary) / denominator;
+            BigFloat imaginary = (left.Imaginary * right.Real - left.Real * right.Imaginary) / denominator;
 
             return new BigComplex(real, imaginary);
-
-
         }
 
         #endregion
@@ -436,6 +433,5 @@ namespace Badger.Maths.Algebra
         }
 
         #endregion
-
     }
 }
