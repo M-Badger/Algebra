@@ -201,7 +201,6 @@ namespace Badger.Maths.Algebra
             return !(item1 == item2);
         }
 
-        // TODO Using Absolute values makes opposite complex numbers equal !!!!!
         /// <summary>
         /// Tests if the two supplied MpfrComplex structure instances have the same properties to within a given <paramref name="tolerance"/>
         /// </summary>
@@ -209,19 +208,11 @@ namespace Badger.Maths.Algebra
         /// <param name="item2">The second instance of an MpfrComplex structure for the comparison</param>
         /// <param name="tolerance">If two MpfrComplex structures have the same properties to within a defined 
         /// <paramref name="tolerance"/> then they are considered equal.</param>
-        /// <remarks>The respective precisions of the supplied parameters, <paramref name="item1"/> and 
-        /// <paramref name="item2"/>, are used to calculate their absolute values prior to the equality test.</remarks>
         /// <returns><c>True</c> if the two instances have the same real or imaginary properties (within the defined 
         /// <paramref name="tolerance"/>, <c>false</c> otherwise</returns>
         public static bool IsEqual(MpfrComplex item1, MpfrComplex item2, double tolerance = 1e-25)
         {
-
-            MpfrFloat r1Abs = MpfrFloat.Abs(item1.Real, item1.Real.Precision);
-            MpfrFloat r2Abs = MpfrFloat.Abs(item2.Real, item2.Real.Precision);
-            MpfrFloat i1Abs = MpfrFloat.Abs(item1.Imaginary, item1.Imaginary.Precision);
-            MpfrFloat i2Abs = MpfrFloat.Abs(item2.Imaginary, item2.Imaginary.Precision);
-
-            if (MpfrFloat.Subtract(r1Abs, r2Abs) > tolerance || MpfrFloat.Subtract(i1Abs, i2Abs) > tolerance)
+            if (MpfrFloat.Subtract(item1.Real, item2.Real) > tolerance || MpfrFloat.Subtract(item1.Imaginary, item2.Imaginary) > tolerance)
                 return false;
             return true;
         }
