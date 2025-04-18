@@ -1,0 +1,344 @@
+﻿//========================================================================
+// Badger Maths Library
+// Copyright (C) 2018-2025  Mike Conroy
+// 
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//========================================================================
+
+using System;
+using System.Numerics;
+using System.Text;
+
+namespace Badger.Maths.Algebra
+{
+    /// <summary>
+    /// The BigComplex struct is a structure which represents a complex number using System.Decimal 
+    /// for the underlying real and imaginary parts
+    /// </summary>
+    /// <remarks></remarks>
+    /// <example></example>
+    public readonly struct DecimalComplex : ICloneable, IComparable, IComparable<DecimalComplex>, IEquatable<DecimalComplex>
+    {
+        #region Fields
+
+        /// <summary>
+        /// internal private field for the real part of the complex number
+        /// </summary>
+        private readonly decimal _real;
+
+        /// <summary>
+        /// internal private field for the imaginary part of the complex number
+        /// </summary>
+        private readonly decimal _imaginary;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Constructs a new complex number using the supplied real and imaginary parts
+        /// </summary>
+        /// <param name="realpart">The real part (a) of the complex number a + bi</param>
+        /// <param name="imaginarypart">The imaginary part (b) of the complex number a + bi</param>
+        /// <remarks></remarks>
+        public DecimalComplex(decimal realpart, decimal imaginarypart)
+        {
+            this._real = realpart;
+            this._imaginary = imaginarypart;
+        }
+
+        /// <summary>
+        /// Constructs a new complex number using the supplied BigComplex numer
+        /// </summary>
+        /// <param name="complex">A DecimalComplex number</param>
+        /// <remarks></remarks>
+        public DecimalComplex(DecimalComplex complex)
+        {
+            this._real = complex.Real;
+            this._imaginary = complex.Imaginary;
+        }
+
+        /// <summary>
+        /// Constructs a new complex number using the supplied Complex numer
+        /// </summary>
+        /// <param name="complex">A Complex number</param>
+        /// <remarks></remarks>
+        public DecimalComplex(Complex complex)
+        {
+            this._real = (decimal)complex.Real;
+            this._imaginary = (decimal)complex.Imaginary;
+        }
+
+        #endregion
+
+        #region Properties / Accessors
+
+        /// <summary>
+        /// The Real part of this imaginary number
+        /// </summary>
+        public decimal Real
+        {
+            get { return this._real; }
+        }
+
+        /// <summary>
+        /// The Imaginary part of this imaginary number
+        /// </summary>
+        public decimal Imaginary
+        {
+            get { return this._imaginary; }
+        }
+
+        /// <summary>
+        /// Returns the modulus of this DecimalComplex number
+        /// The modulus is the positive real scalar which measures the distance from the origin.
+        /// </summary>
+        public double Modulus
+        {
+            get { return Math.Sqrt(((double)this._real * (double)this._real + (double)this._imaginary * (double)this._imaginary)); }
+        }
+
+        /// <summary>
+        /// Returns the Argument of this BigComplex structure. The argument measures the angle that the line from the origin to the 
+        /// point z makes with the real axis. It is measured in an  anticlockwise direction. The argument is returned in radians
+        /// </summary>
+        public decimal Argument
+        {
+            get { return (decimal)System.Math.Atan2((double)this.Imaginary, (double)this.Real); }
+        }
+
+        /// <summary>
+        /// Gets the complex conjugate of this <see cref="ComplexNumber"/>.
+        /// </summary>
+        public DecimalComplex Conjugate()
+        {
+            return new DecimalComplex(this._imaginary, -this._real);
+        }
+        #endregion
+
+        #region Static Arithmetic Operators
+
+        /// <summary>
+        /// Tests if the two supplied DecimalComplex structure instances have the same properties
+        /// </summary>
+        /// <param name="item1">The first instance of a DecimalComplex structure for the comparison</param>
+        /// <param name="item2">The second instance of a DecimalComplex structure for the comparison</param>
+        /// <returns>True if both instances have the same real and imaginary properties, false otherwise</returns>
+        public static bool operator ==(DecimalComplex item1, DecimalComplex item2)
+        {
+            return item1.Real == item2.Real && item1.Imaginary == item2.Imaginary;
+        }
+
+        /// <summary>
+        /// Tests if the two supplied DecimalComplex structure instances have different properties
+        /// </summary>
+        /// <param name="item1">The first instance of a DecimalComplex structure for the comparison</param>
+        /// <param name="item2">The second instance of a DecimalComplex structure for the comparison</param>
+        /// <returns>True if the two instances have the different real or imaginary properties, false otherwise</returns>
+        public static bool operator !=(DecimalComplex item1, DecimalComplex item2)
+        {
+            return !(item1 == item2);
+        }
+
+        /// <summary>
+        /// Unary negation operator
+        /// Negates the given DecimalComplex.
+        /// </summary>
+        /// <param name="z">The DecimalComplex structure to be negated.</param>
+        /// <returns>
+        /// Returns a DecimalComplex structure which is the negative equavalent of the given DecimalComplex Structure
+        /// </returns>
+        public static DecimalComplex operator -(DecimalComplex z)
+        {
+            return new DecimalComplex(-z.Real, -z.Imaginary);
+        }
+
+        /// <summary>
+        /// Adds two DecimalComplex structures
+        /// </summary>
+        /// <param name="item1">The first of the two DecimalComplex structure instances to sum</param>
+        /// <param name="item2">The second of the two DecimalComplex structure instances to sum</param>
+        /// <returns>Returns a DecimalComplex structure which represents the sum of item1 + item2</returns>
+        public static DecimalComplex operator +(DecimalComplex item1, DecimalComplex item2)
+        {
+            return new DecimalComplex(item1.Real + item2.Real, item1.Imaginary + item2.Imaginary);
+        }
+
+        /// <summary>
+        /// Subtracts two DecimalComplex structures
+        /// </summary>
+        /// <param name="item1">The first of the two DecimalComplex structure instances to subtract</param>
+        /// <param name="item2">The second of the two DecimalComplex structure instances to subtract</param>
+        /// <returns>Returns a DecimalComplex structure which represents the calculation of item1 - item2</returns>
+        public static DecimalComplex operator -(DecimalComplex item1, DecimalComplex item2)
+        {
+            return item1 + (-item2);
+        }
+
+        /// <summary>
+        /// Multiplies two DecimalComplex structures
+        /// </summary>
+        /// <param name="item1">The first of the two DecimalComplex structure instances to multiply</param>
+        /// <param name="item2">The second of the two DecimalComplex structure instances to multiply</param>
+        /// <returns>Returns a DecimalComplex structure which represents the calculation of item1 * item2</returns>
+        public static DecimalComplex operator *(DecimalComplex item1, DecimalComplex item2)
+        {
+            decimal real = item1.Real * item2.Real - item1.Imaginary * item2.Imaginary;
+            decimal imaginary = item1.Imaginary * item2.Real + item1.Real * item2.Imaginary;
+
+            return new DecimalComplex(real, imaginary);
+        }
+
+        /// <summary>
+        /// Divides two DecimalComplex structures
+        /// </summary>
+        /// <param name="item1">The first of the two DecimalComplex structure instances to divide</param>
+        /// <param name="item2">The second of the two DecimalComplex structure instances to divide</param>
+        /// <returns>Returns a DecimalComplex structure which represents the calculation of item1 / item2</returns>
+        public static DecimalComplex operator /(DecimalComplex item1, DecimalComplex item2)
+        {
+            decimal denominator = (item2.Real * item2.Real) + (item2.Imaginary * item2.Imaginary);
+            decimal real = (item1.Real * item2.Real + item1.Imaginary * item2.Imaginary) / denominator;
+            decimal imaginary = (item1.Imaginary * item2.Real - item1.Real * item2.Imaginary) / denominator;
+
+            return new DecimalComplex(real, imaginary);
+        }
+
+        #endregion
+
+        #region ICloneable Support
+
+        /// <summary>
+        /// Creates a new instance of a DecimalComplex structure which has the same real and imaginary properties as this instance
+        /// </summary>
+        /// <returns>A deep copy of this instance of a DecimalComplex structure with identical real and imaginary properties</returns>
+        public Object Clone()
+        {
+            return new DecimalComplex(this);
+        }
+        #endregion
+
+        #region IComparable Support
+
+        /// <summary>
+        /// Compares this instance of a DecimalComplex structure to a specified object instance and returns an integer that indicates whether the value of this instance is less than, 
+        /// equal to, or greater than the value of the specified object instance
+        /// </summary>
+        /// The object to compare with this instance of a DecimalComplex structure<param name="obj"></param>
+        /// <returns>Less than zero if ??????, zero if they are the same, and greater than zero if ?????</returns>
+        public int CompareTo(object? obj)
+        {
+            if ((obj == null))
+            {
+                throw new ArgumentNullException(nameof(obj), "The object you have tried to compare to this instance is Null (Nothing in VB).");
+            }
+            else if ((!object.ReferenceEquals(this.GetType(), obj.GetType())))
+            {
+                try
+                {
+                    return this.CompareTo((DecimalComplex)obj);
+                }
+                catch (InvalidCastException ex)
+                {
+                    throw new InvalidCastException("The object you provided cannot be cast to an DecimalComplex object.", ex);
+                }
+            }
+            else
+            {
+                return this.CompareTo((DecimalComplex)obj);
+            }
+        }
+
+        /// <summary>
+        /// Compares this instance of a DecimalComplex structure to a specified object instance and returns an integer that indicates whether the value of this instance is less than, 
+        /// equal to, or greater than the value of the specified object instance
+        /// </summary>
+        /// The object to compare with this instance of a DecimalComplex structure<param name="obj"></param>
+        /// <returns>Less than zero if this instance is closer to the origin than the supplied version, zero if they are the same distance, and greater than zero if this 
+        /// instance is farther from the origin than the supplied version (the Modulus property is used)</returns>
+        public int CompareTo(DecimalComplex other)
+        {
+            // Multiply by 100000 in order to increase differentiation
+            return Convert.ToInt32((this.Modulus - other.Modulus) * 100000);
+        }
+        #endregion
+
+        #region IEquatable Support
+
+        /// <summary>
+        /// Tests if the supplied object, <paramref name="obj">obj</paramref>, is an instance of a DecimalComplex structure and if so tests whether it has the same properties as this
+        /// instance of a DecimalComplex structure
+        /// </summary>
+        /// <param name="obj">A DecimalComplex object to test for property equivalence with this instance</param>
+        /// <returns><c>True</c> if both instances have the same real and imaginary properties, <c>False</c> otherwise</returns>
+        /// <remarks>Internally this method uses the equality operator, ==</remarks>
+        public override bool Equals(object? obj)
+        {
+            if ((obj == null) || (!object.ReferenceEquals(this.GetType(), obj.GetType())))
+                return false;
+            return (this == (DecimalComplex)obj);
+        }
+
+        /// <summary>
+        /// Tests if the supplied object has the same properties as this instance of a DecimalComplex structure
+        /// </summary>
+        /// <param name="obj">A DecimalComplex object to test for property equivalence with this instance</param>
+        /// <returns><c>True</c> if both instances have the same real and imaginary properties, <c>False</c> otherwise</returns>
+        /// <remarks>Internally this method uses the equality operator, ==</remarks>
+        public bool Equals(DecimalComplex other)
+        {
+            return this == other;
+        }
+
+        #endregion
+
+        #region Object Methods
+
+        /// <summary>
+        /// Returns a hash code for this instance of a DecimalComplex structure
+        /// </summary>
+        /// <returns>A single hash code calculated from the individual hash codes of the real and imaginary parts</returns>
+        public override int GetHashCode() => HashCode.Combine(this._real.GetHashCode(), this._imaginary.GetHashCode());
+
+        /// <summary>
+        /// Returns a string representation of this DecimalComplex structure
+        /// </summary>
+        /// <returns>A <see cref="string"/> representation of this <see cref="DecimalComplex"/></returns>
+        public override string ToString()
+        {
+            // Copied from Science Library SCI, https://sourceforge.net/projects/scinet/?source=typ_redirect
+
+            StringBuilder z = new();
+            z.Append('(');
+            z.Append(this._real);
+
+            if (this._imaginary > 0)
+                z.Append(" + ");
+            else if (this._imaginary < 0)
+                z.Append(" - ");
+
+            if (this._imaginary != 0m)
+            {
+                z.Append(BigFloat.Abs(new BigFloat(this._imaginary)).ToString());
+                z.Append('i');
+            }
+            z.Append(')');
+
+            return z.ToString();
+        }
+        #endregion
+
+    }
+}
