@@ -104,9 +104,15 @@ namespace Badger.Maths.Algebra
         /// Returns the modulus of this BigComplex number
         /// The modulus is the positive real scalar which measures the distance from the origin
         /// </summary>
-        public double Modulus
+        /// <remarks>This method uses <see cref="BigFloat.Sqrt(BigFloat, double)"/> which 
+        /// requires a tolerance to be provided, this is set to 1e-20 by this method</remarks>
+        public BigFloat Modulus
         {
-            get { return BigFloat.Sqrt(this._real * this._real + this._imaginary * this._imaginary); }
+            get
+            {
+                BigFloat result = this._real * this._real + this._imaginary * this._imaginary;
+                return BigFloat.Sqrt(result, 1e-20);
+            }
         }
 
         /// <summary>
