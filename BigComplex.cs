@@ -208,15 +208,25 @@ namespace Badger.Maths.Algebra
         }
 
         /// <summary>
-        /// Unary negation operator. Negates the given BigComplex
+        /// The unary - operator, negates the value of <paramref name="value"/>
         /// </summary>
-        /// <param name="z">The BigComplex structure to be negated</param>
-        /// <returns>
-        /// Returns a BigComplex structure which is the negative equavalent of the given BigComplex Structure
-        /// </returns>
+        /// <param name="value">The <see cref="BigComplex"/> that will be negated</param>
+        /// <returns>A negated <see cref="BigComplex"/></returns>
         public static BigComplex operator -(BigComplex value)
         {
-            return new BigComplex(-value.Real, -value.Imaginary);
+            return BigComplex.Negate(value);
+        }
+
+        /// <summary>
+        /// The unary + operator, returns the value of <paramref name="value"/>, i.e. it is a no-op
+        /// </summary>
+        /// <param name="value">The <see cref="BigComplex"/> that will be subject to the unary + operation</param>
+        /// <returns><paramref name="value"/></returns>
+        /// <remarks>This operator is implemented for consistency with the - operator, it is a no-op, 
+        /// it does not change the value of <paramref name="value"/></remarks>
+        public static BigComplex operator +(BigComplex value)
+        {
+            return value;
         }
 
         /// <summary>
@@ -273,6 +283,17 @@ namespace Badger.Maths.Algebra
         #endregion
 
         #region Static Arithmetic Methods
+
+        /// <summary>
+        /// Negates the supplied <see cref="BigComplex"/> structure
+        /// </summary>
+        /// <param name="value">The <see cref="BigComplex"/> to be negated</param>
+        /// <returns>A new <see cref="BigComplex"/> struct that is the negative of <paramref name="value"/></returns>
+        /// 
+        public static BigComplex Negate(BigComplex value)
+        {
+            return new BigComplex(-value.Real, -value.Imaginary);
+        }
 
         /// <summary>
         /// Calculates the atan2 value of the supplied BigComplex number

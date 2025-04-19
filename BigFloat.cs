@@ -47,7 +47,6 @@
 //THE SOFTWARE.
 //========================================================================
 
-using Sdcb.Arithmetic.Mpfr;
 using System.Globalization;
 using System.Numerics;
 
@@ -362,10 +361,10 @@ namespace Badger.Maths.Algebra
         #region Static Operators
 
         /// <summary>
-        /// Returns the negation of a <see cref="BigFloat"/> number
+        /// The unary - operator, negates the value of <paramref name="value"/>
         /// </summary>
         /// <param name="value">The <see cref="BigFloat"/> that will be negated</param>
-        /// <returns>A new <see cref="BigFloat"/> that is the negative of <paramref name="value"/></returns>
+        /// <returns>A negated <see cref="BigFloat"/></returns>
         public static BigFloat operator -(BigFloat value)
         {
             return BigFloat.Negate(value);
@@ -408,7 +407,7 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// The unary + operator, returns the value of <paramref name="value"/>, i.e. it is a no-op
         /// </summary>
-        /// <param name="value">The <see cref="BigFloat"/> that will be trated by the unary + operator</param>
+        /// <param name="value">The <see cref="BigFloat"/> that will be subject to the unary + operation</param>
         /// <returns><paramref name="value"/></returns>
         /// <remarks>This operator is implemented for consistency with the - operator, it is a no-op, 
         /// it does not change the value of <paramref name="value"/></remarks>

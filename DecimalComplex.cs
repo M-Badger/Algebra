@@ -153,16 +153,25 @@ namespace Badger.Maths.Algebra
         }
 
         /// <summary>
-        /// Unary negation operator
-        /// Negates the given DecimalComplex.
+        /// The unary - operator, negates the value of <paramref name="value"/>
         /// </summary>
-        /// <param name="z">The DecimalComplex structure to be negated.</param>
-        /// <returns>
-        /// Returns a DecimalComplex structure which is the negative equavalent of the given DecimalComplex Structure
-        /// </returns>
-        public static DecimalComplex operator -(DecimalComplex z)
+        /// <param name="value">The <see cref="DecimalComplex"/> that will be negated</param>
+        /// <returns>A negated <see cref="DecimalComplex"/></returns>
+        public static DecimalComplex operator -(DecimalComplex value)
         {
-            return new DecimalComplex(-z.Real, -z.Imaginary);
+            return DecimalComplex.Negate(value);
+        }
+
+        /// <summary>
+        /// The unary + operator, returns the value of <paramref name="value"/>, i.e. it is a no-op
+        /// </summary>
+        /// <param name="value">The <see cref="DecimalComplex"/> that will be subject to the unary + operation</param>
+        /// <returns><paramref name="value"/></returns>
+        /// <remarks>This operator is implemented for consistency with the - operator, it is a no-op, 
+        /// it does not change the value of <paramref name="value"/></remarks>
+        public static DecimalComplex operator +(DecimalComplex value)
+        {
+            return value;
         }
 
         /// <summary>
@@ -214,6 +223,21 @@ namespace Badger.Maths.Algebra
             decimal imaginary = (item1.Imaginary * item2.Real - item1.Real * item2.Imaginary) / denominator;
 
             return new DecimalComplex(real, imaginary);
+        }
+
+        #endregion
+
+        #region Static Arithmetic Methods
+
+        /// <summary>
+        /// Negates the supplied <see cref="DecimalComplex"/> structure
+        /// </summary>
+        /// <param name="value">The <see cref="DecimalComplex"/> to be negated</param>
+        /// <returns>A new <see cref="DecimalComplex"/> struct that is the negative of <paramref name="value"/></returns>
+        /// 
+        public static DecimalComplex Negate(DecimalComplex value)
+        {
+            return new DecimalComplex(-value.Real, -value.Imaginary);
         }
 
         #endregion
