@@ -218,17 +218,25 @@ namespace Badger.Maths.Algebra
         }
 
         /// <summary>
-        /// Unary negation operator
-        /// Negates the given MpfrComplex.
+        /// The unary - operator, negates the value of <paramref name="value"/>
         /// </summary>
-        /// <param name="z">The MpfrComplex structure to be negated.</param>
-        /// <returns>
-        /// Returns a MpfrComplex structure which is the negative equavalent of the given MpfrComplex Structure
-        /// </returns>
-        public static MpfrComplex operator -(MpfrComplex z)
+        /// <param name="value">The <see cref="MpfrComplex"/> that will be negated</param>
+        /// <returns>A negated <see cref="MpfrComplex"/></returns>
+        public static MpfrComplex operator -(MpfrComplex value)
         {
-            MpfrFloat zero = new();
-            return new MpfrComplex(zero - z.Real, zero - z.Imaginary, z.Precision, z.RoundingMode);
+            return MpfrComplex.Negate(value);
+        }
+
+        /// <summary>
+        /// The unary + operator, returns the value of <paramref name="value"/>, i.e. it is a no-op
+        /// </summary>
+        /// <param name="value">The <see cref="MpfrComplex"/> that will be subject to the unary + operation</param>
+        /// <returns><paramref name="value"/></returns>
+        /// <remarks>This operator is implemented for consistency with the - operator, it is a no-op, 
+        /// it does not change the value of <paramref name="value"/></remarks>
+        public static MpfrComplex operator +(MpfrComplex value)
+        {
+            return value;
         }
 
         /// <summary>
@@ -348,6 +356,21 @@ namespace Badger.Maths.Algebra
         {
             if (item1.CompareTo(item2) >= 0) return true;
             return false;
+        }
+
+        #endregion
+
+        #region Static Arithmetic Methods
+
+        /// <summary>
+        /// Negates the supplied <see cref="MpfrComplex"/> structure
+        /// </summary>
+        /// <param name="value">The <see cref="MpfrComplex"/> to be negated</param>
+        /// <returns>A new <see cref="MpfrComplex"/> struct that is the negative of <paramref name="value"/></returns>
+        /// 
+        public static MpfrComplex Negate(MpfrComplex value)
+        {
+            return new MpfrComplex(-value.Real, -value.Imaginary, value.Precision, value.RoundingMode);
         }
 
         #endregion
