@@ -1030,7 +1030,7 @@ namespace Badger.Maths.Algebra
         /// </summary>
         /// <param name="value">The <see cref="BigFloat"/> of which the square root will be calculated</param>
         /// <param name="tolerance">The precision tolerance for the approximation (a default of 1e-20 is suggested)</param>
-        /// <returns>A new <see cref="BigFloat"/> instance that is the square root of <paramref name="value"/></returns>
+        /// <returns>A new <see cref="BigFloat" /> instance that is the square root of <paramref name="value"/></returns>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is negative.</exception>
         public static BigFloat Sqrt(BigFloat value, double tolerance)
         {
@@ -1058,8 +1058,9 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Calculates the integer square root of a <see cref="BigInteger"/> using the Newton-Raphson method
         /// </summary>
-        /// <param name="value">The <see cref="BigInteger"/> to calculate the square root of.</param>
+        /// <param name="value">The <see cref="BigInteger"/> to calculate the square root of</param>
         /// <returns>The integer square root of <paramref name="value"/></returns>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is negative</exception>"
         private static BigInteger SqrtBigInteger(BigInteger value)
         {
             if (value < 0)
