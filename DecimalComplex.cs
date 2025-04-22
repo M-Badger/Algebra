@@ -19,6 +19,7 @@
 
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Badger.Maths.Algebra
@@ -105,9 +106,13 @@ namespace Badger.Maths.Algebra
         /// Returns the modulus of this DecimalComplex number
         /// The modulus is the positive real scalar which measures the distance from the origin.
         /// </summary>
-        public double Modulus
+        public decimal Modulus
         {
-            get { return Math.Sqrt(((double)this._real * (double)this._real + (double)this._imaginary * (double)this._imaginary)); }
+            get
+            {
+                Decimal result = this._real * this._real + this._imaginary * this._imaginary;
+                return DecimalComplex.DecimalSqrt(result, 1e-20M);
+            }
         }
 
         /// <summary>
@@ -116,7 +121,10 @@ namespace Badger.Maths.Algebra
         /// </summary>
         public decimal Argument
         {
-            get { return (decimal)System.Math.Atan2((double)this.Imaginary, (double)this.Real); }
+            get
+            {
+                return DecimalComplex.Atan2(this);
+            }
         }
 
         /// <summary>
@@ -239,6 +247,95 @@ namespace Badger.Maths.Algebra
         {
             return new DecimalComplex(-value.Real, -value.Imaginary);
         }
+
+        /// <summary>
+        /// Calculates the atan2 value of the supplied DecimalComplex number
+        /// </summary>
+        /// <param name="value">The <see cref="DecimalComplex"/> for which the atan2 will be calculated</param>
+        /// <returns>The 2 argument arctangent of a complex number</returns>
+        /// <remarks>The calculation follows correct quadrant-based angle calculation by using sign checks</remarks>
+        public static decimal Atan2(DecimalComplex value)
+        {
+            if (value.Real == 0 && value.Imaginary == 0)
+            {
+                throw new ArgumentException("Undefined angle for (0,0i)");
+            }
+
+            // Calculate the absolute value of the atan
+            decimal absAtan = DecimalComplex.Atan(value.Imaginary / value.Real);
+            decimal DecimalPI = 22M / 7M;
+
+            if (value.Real > 0)
+            {
+                return absAtan; // First and fourth quadrant
+            }
+            else if (value.Imaginary >= 0)
+            {
+                return absAtan + DecimalPI; // Second quadrant
+            }
+            else
+            {
+                return absAtan - DecimalPI; // Third quadrant
+            }
+        }
+
+        /// <summary>
+        /// Calculates the arctangent of an angle expressed as a decimal number using Taylor series approximation
+        /// </summary>
+        /// <param name="value">The angle of which the arctangent wil be calculated</param>
+        /// <returns>The arctangent of <paramref name="value"/></returns>
+        private static decimal Atan(decimal value)
+        {
+            // Taylor series approximation for arctan(x)
+            const int iterations = 50;
+            decimal result = value;
+            decimal term = value;
+            decimal xSquared = value * value;
+
+            for (int i = 1; i < iterations; i++)
+            {
+                term *= xSquared;
+                decimal fraction = term / (2 * i + 1);
+                result += (i % 2 == 0) ? fraction : -fraction;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates the square root of a <see cref="Decimal"/> using the Newton-Raphson method
+        /// </summary>
+        /// <param name="value">The <see cref="Decimal"/> to calculate the square root of</param>
+        /// <param name="precision"></param>
+        /// <returns>The square root of <paramref name="value"/></returns>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is negative</exception>
+        /// <remarks>Calculates the square root to within a given precision, if not specified the 
+        /// precision is fixed at 0.0000000000000000000001</remarks>
+        private static decimal DecimalSqrt(decimal value, decimal precision = 0.0000000000000000000001M)
+        {
+            if (value < 0)
+            {
+                throw new ArgumentException("Cannot calculate the square root of a negative number.", nameof(value));
+            }
+            if (value == 0 || value == 1)
+            {
+                return value;
+            }
+
+            decimal guess = value / 2;
+            decimal previousGuess;
+
+            do
+            {
+                previousGuess = guess;
+                guess = (previousGuess + value / previousGuess) / 2;
+            }
+            while (Math.Abs(previousGuess - guess) > precision);
+
+            return guess;
+        }
+
+
 
         #endregion
 

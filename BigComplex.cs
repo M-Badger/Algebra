@@ -299,12 +299,12 @@ namespace Badger.Maths.Algebra
         /// Calculates the atan2 value of the supplied BigComplex number
         /// </summary>
         /// <param name="value">The <see cref="BigComplex"/> for which the atan2 will be calculated</param>
-        /// <returns>The 2 argument arc tangent of a complex number</returns>
+        /// <returns>The 2 argument arctangent of a complex number</returns>
         /// <remarks>This function is particularly useful because it resolves the ambiguity that can arise 
-        /// when finding the angle. The standard arctangent function only gives angles in the range -pi/2 to 
-        /// pi/2 (quadrants I and IV). However, with ( \text{atan2} ), the angle is calculated for all four 
-        /// quadrants by taking the signs of both ( x ) and ( y ) into account. This ensures it outputs the 
-        /// correct angle in the range pi to pi</remarks>
+        /// when finding the angle. The standard arctangent function only gives angles in the range <c>-pi/2</c> to 
+        /// <c>pi/2</c> (quadrants I and IV). However, with <c>atan2</c>, the angle is calculated for all four 
+        /// quadrants by taking the signs of both <c>x</c> and <c>y</c> into account. This ensures it outputs the 
+        /// correct angle in the range <c>-pi</c> to <c>pi</c></remarks>
         public static BigFloat Atan2(BigComplex value)
         {
             if (value.Real == BigFloat.Zero)
