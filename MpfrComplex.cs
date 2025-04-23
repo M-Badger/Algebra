@@ -61,6 +61,8 @@ namespace Badger.Maths.Algebra
         /// </summary>
         /// <param name="realpart">The real part (a) of the complex number a + bi</param>
         /// <param name="imaginarypart">The imaginary part (b) of the complex number a + bi</param>
+        /// <param name="precision">The number of bits used to represent the floating-point number</param>
+        /// <param name="rounding">The rounding mode used for the <see cref="MpfrComplex"/>, see <see cref="MpfrRounding"/></param>
         /// <remarks></remarks>
         public MpfrComplex(MpfrFloat realpart, MpfrFloat imaginarypart, int precision = 1000, MpfrRounding rounding = MpfrRounding.ToEven)
         {
@@ -74,6 +76,8 @@ namespace Badger.Maths.Algebra
         /// Constructs a new MpfrComplex number using the supplied BigComplex numer
         /// </summary>
         /// <param name="complex">A MpfrComplex number</param>
+        /// <param name="precision">The number of bits used to represent the floating-point number</param>
+        /// <param name="rounding">The rounding mode used for the <see cref="MpfrComplex"/>, see <see cref="MpfrRounding"/></param>
         /// <remarks></remarks>
         public MpfrComplex(MpfrComplex complex, int precision = 1000, MpfrRounding rounding = MpfrRounding.ToEven)
         {
@@ -87,6 +91,8 @@ namespace Badger.Maths.Algebra
         /// Constructs a new MpfrComplex number using the supplied System.Numerics.Complex number
         /// </summary>
         /// <param name="complex">A System.Numerics.Complex number</param>
+        /// <param name="precision">The number of bits used to represent the floating-point number</param>
+        /// <param name="rounding">The rounding mode used for the <see cref="MpfrComplex"/>, see <see cref="MpfrRounding"/></param>
         /// <remarks></remarks>
         public MpfrComplex(Complex complex, int precision = 1000, MpfrRounding rounding = MpfrRounding.ToEven)
         {
@@ -181,49 +187,33 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Tests if the two supplied MpfrComplex structure instances have the same properties
         /// </summary>
-        /// <param name="item1">The first instance of a MpfrComplex structure for the comparison</param>
-        /// <param name="item2">The second instance of a MpfrComplex structure for the comparison</param>
+        /// <param name="left">The first instance of a MpfrComplex structure for the comparison</param>
+        /// <param name="right">The second instance of a MpfrComplex structure for the comparison</param>
         /// <returns>True if both instances have the same real and imaginary properties, false otherwise</returns>
         /// <remarks><para>The <c>sdcb.Arithmetic.Mpfr</c> library uses the <c>mpfr_equal_p</c> method to determine 
         /// equality. <c>mpfr_equal_p</c> performs a bitwise comparison, meaning that the numbers are considered 
         /// equal only if their entire binary representations (including sign, exponent, and mantissa) match.</para>
         /// <para>Consider using the <see cref="IsEqual(MpfrComplex, MpfrComplex, double)"/> function to 
         /// perform an equality test within a specified precision.</para></remarks>
-        public static bool operator ==(MpfrComplex item1, MpfrComplex item2)
+        public static bool operator ==(MpfrComplex left, MpfrComplex right)
         {
-            return item1.Real.Equals(item2.Real) && item1.Imaginary.Equals(item2.Imaginary);
+            return left.Real.Equals(right.Real) && left.Imaginary.Equals(right.Imaginary);
         }
 
         /// <summary>
         /// Tests if the two supplied MpfrComplex structure instances have different properties
         /// </summary>
-        /// <param name="item1">The first instance of a MpfrComplex structure for the comparison</param>
-        /// <param name="item2">The second instance of a MpfrComplex structure for the comparison</param>
+        /// <param name="left">The first instance of a MpfrComplex structure for the comparison</param>
+        /// <param name="right">The second instance of a MpfrComplex structure for the comparison</param>
         /// <returns><c>True</c> if the two instances have different real and/or imaginary properties, <c>false</c> otherwise</returns>
         /// <remarks><para>The <c>sdcb.Arithmetic.Mpfr</c> library uses the <c>mpfr_equal_p</c> method to determine 
         /// equality. <c>mpfr_equal_p</c> performs a bitwise comparison, meaning that the numbers are considered 
         /// equal only if their entire binary representations (including sign, exponent, and mantissa) match.</para>
         /// <para>Consider using the <see cref="IsEqual(MpfrComplex, MpfrComplex, double)"/> function to 
         /// perform an equality test within a specified precision.</para></remarks>
-        public static bool operator !=(MpfrComplex item1, MpfrComplex item2)
+        public static bool operator !=(MpfrComplex left, MpfrComplex right)
         {
-            return !(item1 == item2);
-        }
-
-        /// <summary>
-        /// Tests if the two supplied MpfrComplex structure instances have the same properties to within a given <paramref name="tolerance"/>
-        /// </summary>
-        /// <param name="item1">The first instance of an MpfrComplex structure for the comparison</param>
-        /// <param name="item2">The second instance of an MpfrComplex structure for the comparison</param>
-        /// <param name="tolerance">If two MpfrComplex structures have the same properties to within a defined 
-        /// <paramref name="tolerance"/> then they are considered equal.</param>
-        /// <returns><c>True</c> if the two instances have the same real or imaginary properties (within the defined 
-        /// <paramref name="tolerance"/>, <c>false</c> otherwise</returns>
-        public static bool IsEqual(MpfrComplex item1, MpfrComplex item2, double tolerance = 1e-25)
-        {
-            if (MpfrFloat.Subtract(item1.Real, item2.Real) > tolerance || MpfrFloat.Subtract(item1.Imaginary, item2.Imaginary) > tolerance)
-                return false;
-            return true;
+            return !(left == right);
         }
 
         /// <summary>
@@ -251,119 +241,119 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Adds two MpfrComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two MpfrComplex structure instances to sum</param>
-        /// <param name="item2">The second of the two MpfrComplex structure instances to sum</param>
-        /// <remarks>The <see cref="Precision"/> and <see cref="RoundingMode"/> of <paramref name="item1"/> are used for the new MpfrComplex</remarks>
-        /// <returns>Returns a MpfrComplex structure which represents the sum of item1 + item2</returns>
-        public static MpfrComplex operator +(MpfrComplex item1, MpfrComplex item2)
+        /// <param name="left">The first of the two MpfrComplex structure instances to sum</param>
+        /// <param name="right">The second of the two MpfrComplex structure instances to sum</param>
+        /// <remarks>The <see cref="Precision"/> and <see cref="RoundingMode"/> of <paramref name="left"/> are used for the new MpfrComplex</remarks>
+        /// <returns>Returns a MpfrComplex structure which represents the sum of left + right</returns>
+        public static MpfrComplex operator +(MpfrComplex left, MpfrComplex right)
         {
-            return new MpfrComplex(item1.Real + item2.Real, item1.Imaginary + item2.Imaginary, item1.Precision, item1.RoundingMode);
+            return new MpfrComplex(left.Real + right.Real, left.Imaginary + right.Imaginary, left.Precision, left.RoundingMode);
         }
 
         /// <summary>
         /// Subtracts two MpfrComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two MpfrComplex structure instances to subtract</param>
-        /// <param name="item2">The second of the two MpfrComplex structure instances to subtract</param>
-        /// <remarks>The <see cref="Precision"/> and <see cref="RoundingMode"/> of <paramref name="item1"/> are used for the new MpfrComplex</remarks>
-        /// <returns>Returns a MpfrComplex structure which represents the calculation of item1 - item2</returns>
-        public static MpfrComplex operator -(MpfrComplex item1, MpfrComplex item2)
+        /// <param name="left">The first of the two MpfrComplex structure instances to subtract</param>
+        /// <param name="right">The second of the two MpfrComplex structure instances to subtract</param>
+        /// <remarks>The <see cref="Precision"/> and <see cref="RoundingMode"/> of <paramref name="left"/> are used for the new MpfrComplex</remarks>
+        /// <returns>Returns a MpfrComplex structure which represents the calculation of left - right</returns>
+        public static MpfrComplex operator -(MpfrComplex left, MpfrComplex right)
         {
-            return item1 + (-item2);
+            return left + (-right);
         }
 
         /// <summary>
         /// Multiplies two MpfrComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two MpfrComplex structure instances to multiply</param>
-        /// <param name="item2">The second of the two MpfrComplex structure instances to multiply</param>
-        /// <remarks>The <see cref="Precision"/> and <see cref="RoundingMode"/> of <paramref name="item1"/> are used for the new MpfrComplex</remarks>
-        /// <returns>Returns a MpfrComplex structure which represents the calculation of item1 * item2</returns>
-        public static MpfrComplex operator *(MpfrComplex item1, MpfrComplex item2)
+        /// <param name="left">The first of the two MpfrComplex structure instances to multiply</param>
+        /// <param name="right">The second of the two MpfrComplex structure instances to multiply</param>
+        /// <remarks>The <see cref="Precision"/> and <see cref="RoundingMode"/> of <paramref name="left"/> are used for the new MpfrComplex</remarks>
+        /// <returns>Returns a MpfrComplex structure which represents the calculation of left * right</returns>
+        public static MpfrComplex operator *(MpfrComplex left, MpfrComplex right)
         {
-            MpfrFloat NewReal = (item1.Real * item2.Real) - (item1.Imaginary * item2.Imaginary);
-            MpfrFloat NewImaginary = (item1.Real * item2.Imaginary) + (item1.Imaginary * item2.Real);
+            MpfrFloat NewReal = (left.Real * right.Real) - (left.Imaginary * right.Imaginary);
+            MpfrFloat NewImaginary = (left.Real * right.Imaginary) + (left.Imaginary * right.Real);
 
-            return new MpfrComplex(NewReal, NewImaginary, item1.Precision, item1.RoundingMode);
+            return new MpfrComplex(NewReal, NewImaginary, left.Precision, left.RoundingMode);
         }
 
         /// <summary>
         /// Divides two MpfrComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two MpfrComplex structure instances to divide</param>
-        /// <param name="item2">The second of the two MpfrComplex structure instances to divide</param>
-        /// <remarks>The <see cref="Precision"/> and <see cref="RoundingMode"/> of <paramref name="item1"/> are used for the new MpfrComplex</remarks>
-        /// <returns>Returns a MpfrComplex structure which represents the calculation of item1 / item2</returns>
-        public static MpfrComplex operator /(MpfrComplex item1, MpfrComplex item2)
+        /// <param name="left">The first of the two MpfrComplex structure instances to divide</param>
+        /// <param name="right">The second of the two MpfrComplex structure instances to divide</param>
+        /// <remarks>The <see cref="Precision"/> and <see cref="RoundingMode"/> of <paramref name="left"/> are used for the new MpfrComplex</remarks>
+        /// <returns>Returns a MpfrComplex structure which represents the calculation of left / right</returns>
+        public static MpfrComplex operator /(MpfrComplex left, MpfrComplex right)
         {
             MpfrFloat denominator;
             MpfrFloat t1, t2, t3;
             MpfrFloat NewReal, NewImaginary;
 
-            t1 = MpfrFloat.Square(item2.Real, item2.Precision, item2.RoundingMode);
-            t2 = MpfrFloat.Square(item2.Imaginary, item2.Precision, item2.RoundingMode);
+            t1 = MpfrFloat.Square(right.Real, right.Precision, right.RoundingMode);
+            t2 = MpfrFloat.Square(right.Imaginary, right.Precision, right.RoundingMode);
             denominator = t1 + t2;
 
             // Calculate real part
-            t1 = item1.Real * item2.Real;
-            t2 = item1.Imaginary * item2.Imaginary;
+            t1 = left.Real * right.Real;
+            t2 = left.Imaginary * right.Imaginary;
             t3 = t1 + t2;
             NewReal = t3 / denominator;
 
             //Calculate imaginary part
-            t1 = item1.Imaginary * item2.Real;
-            t2 = item1.Real * item2.Imaginary;
+            t1 = left.Imaginary * right.Real;
+            t2 = left.Real * right.Imaginary;
             t3 = t1 - t2;
             NewImaginary = t3 / denominator;
 
-            return new MpfrComplex(NewReal, NewImaginary, item1.Precision, item1.RoundingMode);
+            return new MpfrComplex(NewReal, NewImaginary, left.Precision, left.RoundingMode);
         }
 
         /// <summary>
         /// Tests if the first supplied MpfrComplex structure is less than the second supplied MpfrComplex structure
         /// </summary>
-        /// <param name="item1">The MpfrComplex instance to compare with <paramref name="item2"/></param>
-        /// <param name="item2">The MpfrComplex instance to compare with <paramref name="item1"/></param>
-        /// <returns><c>True</c> if <paramref name="item1"/> is closer to the origin than <paramref name="item2"/>, otherwise <c>false</c></returns>
-        public static bool operator <(MpfrComplex item1, MpfrComplex item2)
+        /// <param name="left">The MpfrComplex instance to compare with <paramref name="right"/></param>
+        /// <param name="right">The MpfrComplex instance to compare with <paramref name="left"/></param>
+        /// <returns><c>True</c> if <paramref name="left"/> is closer to the origin than <paramref name="right"/>, otherwise <c>false</c></returns>
+        public static bool operator <(MpfrComplex left, MpfrComplex right)
         {
-            if (item1.CompareTo(item2) < 0) return true;
+            if (left.CompareTo(right) < 0) return true;
             return false;
         }
 
         /// <summary>
         /// Tests if the first supplied MpfrComplex structure is greater than the second supplied MpfrComplex structure
         /// </summary>
-        /// <param name="item1">The MpfrComplex instance to compare with <paramref name="item2"/></param>
-        /// <param name="item2">The MpfrComplex instance to compare with <paramref name="item1"/></param>
-        /// <returns><c>True</c> if <paramref name="item1"/> is further from the origin than <paramref name="item2"/>, otherwise <c>false</c></returns>
-        public static bool operator >(MpfrComplex item1, MpfrComplex item2)
+        /// <param name="left">The MpfrComplex instance to compare with <paramref name="right"/></param>
+        /// <param name="right">The MpfrComplex instance to compare with <paramref name="left"/></param>
+        /// <returns><c>True</c> if <paramref name="left"/> is further from the origin than <paramref name="right"/>, otherwise <c>false</c></returns>
+        public static bool operator >(MpfrComplex left, MpfrComplex right)
         {
-            if (item1.CompareTo(item2) > 0) return true;
+            if (left.CompareTo(right) > 0) return true;
             return false;
         }
 
         /// <summary>
         /// Tests if the first supplied MpfrComplex structure is less than or equal to the second supplied MpfrComplex structure
         /// </summary>
-        /// <param name="item1">The MpfrComplex instance to compare with <paramref name="item2"/></param>
-        /// <param name="item2">The MpfrComplex instance to compare with <paramref name="item1"/></param>
-        /// <returns><c>True</c> if <paramref name="item1"/> is the same distance or closer to the origin than <paramref name="item2"/>, otherwise <c>false</c></returns>
-        public static bool operator <=(MpfrComplex item1, MpfrComplex item2)
+        /// <param name="left">The MpfrComplex instance to compare with <paramref name="right"/></param>
+        /// <param name="right">The MpfrComplex instance to compare with <paramref name="left"/></param>
+        /// <returns><c>True</c> if <paramref name="left"/> is the same distance or closer to the origin than <paramref name="right"/>, otherwise <c>false</c></returns>
+        public static bool operator <=(MpfrComplex left, MpfrComplex right)
         {
-            if (item1.CompareTo(item2) <= 0) return true;
+            if (left.CompareTo(right) <= 0) return true;
             return false;
         }
 
         /// <summary>
         /// Tests if the first supplied MpfrComplex structure is greater than or equal to the second supplied MpfrComplex structure
         /// </summary>
-        /// <param name="item1">The MpfrComplex instance to compare with <paramref name="item2"/></param>
-        /// <param name="item2">The MpfrComplex instance to compare with <paramref name="item1"/></param>
+        /// <param name="left">The MpfrComplex instance to compare with <paramref name="right"/></param>
+        /// <param name="right">The MpfrComplex instance to compare with <paramref name="left"/></param>
         /// <returns></returns>
-        public static bool operator >=(MpfrComplex item1, MpfrComplex item2)
+        public static bool operator >=(MpfrComplex left, MpfrComplex right)
         {
-            if (item1.CompareTo(item2) >= 0) return true;
+            if (left.CompareTo(right) >= 0) return true;
             return false;
         }
 
@@ -380,6 +370,22 @@ namespace Badger.Maths.Algebra
         public static MpfrComplex Negate(MpfrComplex value)
         {
             return new MpfrComplex(-value.Real, -value.Imaginary, value.Precision, value.RoundingMode);
+        }
+
+        /// <summary>
+        /// Tests if the two supplied MpfrComplex structure instances have the same properties to within a given <paramref name="tolerance"/>
+        /// </summary>
+        /// <param name="left">The first instance of an MpfrComplex structure for the comparison</param>
+        /// <param name="right">The second instance of an MpfrComplex structure for the comparison</param>
+        /// <param name="tolerance">If two MpfrComplex structures have the same properties to within a defined 
+        /// <paramref name="tolerance"/> then they are considered equal.</param>
+        /// <returns><c>True</c> if the two instances have the same real or imaginary properties (within the defined 
+        /// <paramref name="tolerance"/>, <c>false</c> otherwise</returns>
+        public static bool IsEqual(MpfrComplex left, MpfrComplex right, double tolerance = 1e-25)
+        {
+            if (MpfrFloat.Subtract(left.Real, right.Real) > tolerance || MpfrFloat.Subtract(left.Imaginary, right.Imaginary) > tolerance)
+                return false;
+            return true;
         }
 
         #endregion
