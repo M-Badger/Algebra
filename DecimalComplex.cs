@@ -195,23 +195,23 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Tests if the two supplied DecimalComplex structure instances have the same properties
         /// </summary>
-        /// <param name="item1">The first instance of a DecimalComplex structure for the comparison</param>
-        /// <param name="item2">The second instance of a DecimalComplex structure for the comparison</param>
+        /// <param name="left">The first instance of a DecimalComplex structure for the comparison</param>
+        /// <param name="right">The second instance of a DecimalComplex structure for the comparison</param>
         /// <returns>True if both instances have the same real and imaginary properties, false otherwise</returns>
-        public static bool operator ==(DecimalComplex item1, DecimalComplex item2)
+        public static bool operator ==(DecimalComplex left, DecimalComplex right)
         {
-            return item1.Real == item2.Real && item1.Imaginary == item2.Imaginary;
+            return left.Real == right.Real && left.Imaginary == right.Imaginary;
         }
 
         /// <summary>
         /// Tests if the two supplied DecimalComplex structure instances have different properties
         /// </summary>
-        /// <param name="item1">The first instance of a DecimalComplex structure for the comparison</param>
-        /// <param name="item2">The second instance of a DecimalComplex structure for the comparison</param>
+        /// <param name="left">The first instance of a DecimalComplex structure for the comparison</param>
+        /// <param name="right">The second instance of a DecimalComplex structure for the comparison</param>
         /// <returns>True if the two instances have the different real or imaginary properties, false otherwise</returns>
-        public static bool operator !=(DecimalComplex item1, DecimalComplex item2)
+        public static bool operator !=(DecimalComplex left, DecimalComplex right)
         {
-            return !(item1 == item2);
+            return !(left == right);
         }
 
         /// <summary>
@@ -239,35 +239,35 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Adds two DecimalComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two DecimalComplex structure instances to sum</param>
-        /// <param name="item2">The second of the two DecimalComplex structure instances to sum</param>
-        /// <returns>Returns a DecimalComplex structure which represents the sum of item1 + item2</returns>
-        public static DecimalComplex operator +(DecimalComplex item1, DecimalComplex item2)
+        /// <param name="left">The first of the two DecimalComplex structure instances to sum</param>
+        /// <param name="right">The second of the two DecimalComplex structure instances to sum</param>
+        /// <returns>Returns a DecimalComplex structure which represents the sum of left + right</returns>
+        public static DecimalComplex operator +(DecimalComplex left, DecimalComplex right)
         {
-            return new DecimalComplex(item1.Real + item2.Real, item1.Imaginary + item2.Imaginary);
+            return new DecimalComplex(left.Real + right.Real, left.Imaginary + right.Imaginary);
         }
 
         /// <summary>
         /// Subtracts two DecimalComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two DecimalComplex structure instances to subtract</param>
-        /// <param name="item2">The second of the two DecimalComplex structure instances to subtract</param>
-        /// <returns>Returns a DecimalComplex structure which represents the calculation of item1 - item2</returns>
-        public static DecimalComplex operator -(DecimalComplex item1, DecimalComplex item2)
+        /// <param name="left">The first of the two DecimalComplex structure instances to subtract</param>
+        /// <param name="right">The second of the two DecimalComplex structure instances to subtract</param>
+        /// <returns>Returns a DecimalComplex structure which represents the calculation of left - right</returns>
+        public static DecimalComplex operator -(DecimalComplex left, DecimalComplex right)
         {
-            return item1 + (-item2);
+            return left + (-right);
         }
 
         /// <summary>
         /// Multiplies two DecimalComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two DecimalComplex structure instances to multiply</param>
-        /// <param name="item2">The second of the two DecimalComplex structure instances to multiply</param>
-        /// <returns>Returns a DecimalComplex structure which represents the calculation of item1 * item2</returns>
-        public static DecimalComplex operator *(DecimalComplex item1, DecimalComplex item2)
+        /// <param name="left">The first of the two DecimalComplex structure instances to multiply</param>
+        /// <param name="right">The second of the two DecimalComplex structure instances to multiply</param>
+        /// <returns>Returns a DecimalComplex structure which represents the calculation of left * right</returns>
+        public static DecimalComplex operator *(DecimalComplex left, DecimalComplex right)
         {
-            decimal real = item1.Real * item2.Real - item1.Imaginary * item2.Imaginary;
-            decimal imaginary = item1.Imaginary * item2.Real + item1.Real * item2.Imaginary;
+            decimal real = left.Real * right.Real - left.Imaginary * right.Imaginary;
+            decimal imaginary = left.Imaginary * right.Real + left.Real * right.Imaginary;
 
             return new DecimalComplex(real, imaginary);
         }
@@ -275,14 +275,14 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Divides two DecimalComplex structures
         /// </summary>
-        /// <param name="item1">The first of the two DecimalComplex structure instances to divide</param>
-        /// <param name="item2">The second of the two DecimalComplex structure instances to divide</param>
-        /// <returns>Returns a DecimalComplex structure which represents the calculation of item1 / item2</returns>
-        public static DecimalComplex operator /(DecimalComplex item1, DecimalComplex item2)
+        /// <param name="left">The first of the two DecimalComplex structure instances to divide</param>
+        /// <param name="right">The second of the two DecimalComplex structure instances to divide</param>
+        /// <returns>Returns a DecimalComplex structure which represents the calculation of left / right</returns>
+        public static DecimalComplex operator /(DecimalComplex left, DecimalComplex right)
         {
-            decimal denominator = (item2.Real * item2.Real) + (item2.Imaginary * item2.Imaginary);
-            decimal real = (item1.Real * item2.Real + item1.Imaginary * item2.Imaginary) / denominator;
-            decimal imaginary = (item1.Imaginary * item2.Real - item1.Real * item2.Imaginary) / denominator;
+            decimal denominator = (right.Real * right.Real) + (right.Imaginary * right.Imaginary);
+            decimal real = (left.Real * right.Real + left.Imaginary * right.Imaginary) / denominator;
+            decimal imaginary = (left.Imaginary * right.Real - left.Real * right.Imaginary) / denominator;
 
             return new DecimalComplex(real, imaginary);
         }
