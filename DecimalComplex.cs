@@ -335,7 +335,17 @@ namespace Badger.Maths.Algebra
             return guess;
         }
 
-
+        /// <summary>
+        /// Tests if the two supplied <see cref="DecimalComplex"/> structure instances have the same properties
+        /// </summary>
+        /// <param name="left">The first instance of an <see cref="DecimalComplex"/> struct for the comparison</param>
+        /// <param name="right">The second instance of an <see cref="DecimalComplex"/> struct for the comparison</param>
+        /// <returns><c>True</c> if the two instances have the same <see cref="DecimalComplex.Real"/> and 
+        /// <see cref="DecimalComplex.Imaginary"/> properties</returns>
+        public static bool IsEqual(DecimalComplex left, DecimalComplex right)
+        {
+            return left == right;
+        }
 
         #endregion
 
