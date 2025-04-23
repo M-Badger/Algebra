@@ -339,8 +339,8 @@ namespace Badger.Maths.Algebra
         /// <summary>
         /// Tests if the two supplied BigComplex structure instances have the same properties
         /// </summary>
-        /// <param name="item1">The first instance of an <see cref="BigComplex"/> struct for the comparison</param>
-        /// <param name="item2">The second instance of an <see cref="BigComplex"/> struct for the comparison</param>
+        /// <param name="left">The first instance of an <see cref="BigComplex"/> struct for the comparison</param>
+        /// <param name="right">The second instance of an <see cref="BigComplex"/> struct for the comparison</param>
         /// <returns><c>True</c> if the two instances have the same <see cref="BigComplex.Real"/> and 
         /// <see cref="BigComplex.Imaginary"/> properties</returns>
         public static bool IsEqual(BigComplex left, BigComplex right)
