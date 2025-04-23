@@ -103,7 +103,7 @@ namespace Badger.Maths.Algebra
         }
 
         /// <summary>
-        /// Returns the modulus of this DecimalComplex number
+        /// Returns the modulus of this DecimalComplex number. 
         /// The modulus is the positive real scalar which measures the distance from the origin.
         /// </summary>
         public decimal Modulus
@@ -137,6 +137,60 @@ namespace Badger.Maths.Algebra
         #endregion
 
         #region Static Arithmetic Operators
+
+        /// <summary>
+        /// Compares the two supplied <see cref="DecimalComplex"/> structs and returns <c>true</c> if the first is less than the second
+        /// </summary>
+        /// <param name="left">The first <see cref="DecimalComplex"/> structure in the equation "left < right"</param>
+        /// <param name="right">The second <see cref="DecimalComplex"/> structure in the equation "left < right"</param>
+        /// <returns></returns>
+        /// <remarks>Internally this method uses the <see cref="DecimalComplex.CompareTo(DecimalComplex)"> 
+        /// method and hence the comparison is based on proximity to the origin which is determined via the 
+        /// <see cref="DecimalComplex.Modulus"/> property</remarks>
+        public static bool operator <(DecimalComplex left, DecimalComplex right)
+        {
+            return left.CompareTo(right) < 0;
+        }
+
+        /// <summary>
+        /// Compares the two supplied <see cref="DecimalComplex"/> structs and returns <c>true</c> if the first is less than or equal to the second
+        /// </summary>
+        /// <param name="left">The first <see cref="DecimalComplex"/> structure in the equation "left <= right"</param>
+        /// <param name="right">The second <see cref="DecimalComplex"/> structure in the equation "left <= right"</param>
+        /// <returns>Internally this method uses the <see cref="DecimalComplex.CompareTo(DecimalComplex)"> 
+        /// method and hence the comparison is based on proximity to the origin which is determined via the 
+        /// <see cref="DecimalComplex.Modulus"/> property</remarks>
+        public static bool operator <=(DecimalComplex left, DecimalComplex right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
+        /// <summary>
+        /// Compares the two supplied <see cref="DecimalComplex"/> Structures and returns <c>true</c> if the first is greater than the second
+        /// </summary>
+        /// <param name="left">The first <see cref="DecimalComplex"/> structure in the equation "left > right"</param>
+        /// <param name="right">The second <see cref="DecimalComplex"/> structure in the equation "left > right"</param>
+        /// <returns></returns>
+        /// <remarks>Internally this method uses the <see cref="DecimalComplex.CompareTo(DecimalComplex)"> 
+        /// method and hence the comparison is based on proximity to the origin which is determined via the 
+        /// <see cref="DecimalComplex.Modulus"/> property</remarks>
+        public static bool operator >(DecimalComplex left, DecimalComplex right)
+        {
+            return left.CompareTo(right) > 0;
+        }
+
+        /// <summary>
+        /// Compares the two supplied <see cref="DecimalComplex"/> Structures and returns <c>true</c> if the first is greater than or equal to the second
+        /// </summary>
+        /// <param name="left">The first <see cref="DecimalComplex"/> structure in the equation "left >= right"</param>
+        /// <param name="right">The second <see cref="DecimalComplex"/> structure in the equation "left >= right"</param>
+        /// <returns>Internally this method uses the <see cref="DecimalComplex.CompareTo(DecimalComplex)"> 
+        /// method and hence the comparison is based on proximity to the origin which is determined via the 
+        /// <see cref="DecimalComplex.Modulus"/> property</remarks>
+        public static bool operator >=(DecimalComplex left, DecimalComplex right)
+        {
+            return left.CompareTo(right) >= 0;
+        }
 
         /// <summary>
         /// Tests if the two supplied DecimalComplex structure instances have the same properties
@@ -364,10 +418,11 @@ namespace Badger.Maths.Algebra
         #region IComparable Support
 
         /// <summary>
-        /// Compares this instance of a DecimalComplex structure to a specified object instance and returns an integer that indicates whether the value of this instance is less than, 
-        /// equal to, or greater than the value of the specified object instance
+        /// Compares this instance of a DecimalComplex structure to a specified object instance and returns an integer 
+        /// that indicates whether the value of this instance is less than, equal to, or greater than the value of 
+        /// the specified object instance
         /// </summary>
-        /// The object to compare with this instance of a DecimalComplex structure<param name="obj"></param>
+        /// <param name="obj">The object to compare with this instance of a DecimalComplex structure</param>
         /// <returns>Less than zero if ??????, zero if they are the same, and greater than zero if ?????</returns>
         public int CompareTo(object? obj)
         {
@@ -393,12 +448,14 @@ namespace Badger.Maths.Algebra
         }
 
         /// <summary>
-        /// Compares this instance of a DecimalComplex structure to a specified object instance and returns an integer that indicates whether the value of this instance is less than, 
-        /// equal to, or greater than the value of the specified object instance
+        /// Compares this instance of a DecimalComplex structure to a specified object instance and returns an integer 
+        /// that indicates whether the value of this instance is less than, equal to, or greater than the value of 
+        /// the specified object instance
         /// </summary>
-        /// The object to compare with this instance of a DecimalComplex structure<param name="obj"></param>
-        /// <returns>Less than zero if this instance is closer to the origin than the supplied version, zero if they are the same distance, and greater than zero if this 
-        /// instance is farther from the origin than the supplied version (the Modulus property is used)</returns>
+        /// <param name="obj">The object to compare with this instance of a DecimalComplex structure</param>
+        /// <returns>Less than zero if this instance is closer to the origin than the supplied version, zero if they 
+        /// are the same distance, and greater than zero if this instance is farther from the origin than the 
+        /// supplied version (the Modulus property is used)</returns>
         public int CompareTo(DecimalComplex other)
         {
             // Multiply by 100000 in order to increase differentiation
