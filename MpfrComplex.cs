@@ -136,8 +136,10 @@ namespace Badger.Maths.Algebra
         /// Returns the modulus of this MpfrComplex number
         /// The modulus is the positive real scalar which measures the distance from the origin.
         /// </summary>
-        public MpfrFloat Modulus()
+        public MpfrFloat Modulus
         {
+            get
+            {
                 MpfrFloat tResult, tImaginary;
 
                 tResult = MpfrFloat.Square(this._real, this._precision, this._roundingMode);
@@ -146,23 +148,30 @@ namespace Badger.Maths.Algebra
                 tResult += tImaginary;
 
                 return MpfrFloat.Sqrt(tResult, this._precision, this._roundingMode);
+            }
         }
 
         /// <summary>
         /// Returns the Argument of this MpfrComplex structure. The argument measures the angle that the line from the origin to the 
         /// point z makes with the real axis. The argument is returned in radians
         /// </summary>
-        public MpfrFloat Argument()
+        public MpfrFloat Argument
         {
+            get
+            {
                 return MpfrFloat.Atan2(this._imaginary, this._real, this._precision, this._roundingMode);
+            }
         }
 
         /// <summary>
         /// Gets the complex conjugate of this <see cref="ComplexNumber"/>.
         /// </summary>
-        public MpfrComplex Conjugate()
+        public MpfrComplex Conjugate
         {
-            return new MpfrComplex(this._real, new MpfrFloat(0) - this._imaginary, this._precision, this._roundingMode);
+            get
+            {
+                return new MpfrComplex(this._real, new MpfrFloat(0) - this._imaginary, this._precision, this._roundingMode);
+            }
         }
 
         #endregion
@@ -433,7 +442,7 @@ namespace Badger.Maths.Algebra
         {
             // Multiply by 100000 in order to increase differentiation
             MpfrFloat tTemp;
-            tTemp = this.Modulus() - other.Modulus();
+            tTemp = this.Modulus - other.Modulus;
             tTemp *= new MpfrFloat(10000);
             return Convert.ToInt32(tTemp);
         }
